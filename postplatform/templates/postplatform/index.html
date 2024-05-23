@@ -17,7 +17,9 @@
                 {% include "postplatform/partials/_weather-show-card.html" %}
             </div>
             <div class="col-md-6">
-                {% include "postplatform/partials/_postcard.html" %}
+                {% for post in posts %}
+                    {% include "postplatform/partials/_postcard.html" %}
+                {% endfor %}
             </div>
             <div class="col-md-4">
                 {% include "postplatform/partials/_profile-box.html" %}

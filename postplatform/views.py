@@ -2,6 +2,7 @@ import datetime
 from django.shortcuts import render
 import requests
 import locale
+from .models import Posts
 
 # Create your views here.
 
@@ -25,6 +26,9 @@ def index(request):
     day = datetime.date.today().strftime("%A")
 #-----------------WEATHER APİ END-----------------------------#
 
+#-----------------Posts Objects-----------------------------#
+    posts = Posts.objects.all().order_by("-date")
+
 
     return render(request, 'postplatform/index.html', {
         'description':description,
@@ -32,6 +36,7 @@ def index(request):
         'temp':temp,
         'day':day,
         'city':city,
+        'posts':posts,
     })
 
 
