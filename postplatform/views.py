@@ -59,7 +59,7 @@ def post_detail(request, post_id):
 ##-------------- CREATE POST ------------------------------##
 def create_post(request):
     if request.method == "POST":
-        form = PostCreateForm(request.POST)
+        form = PostCreateForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()

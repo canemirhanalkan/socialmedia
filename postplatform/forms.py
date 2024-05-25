@@ -25,12 +25,10 @@ from postplatform.models import Posts
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts
-        fields = ("imageUrl","description")
+        fields = ("image","description")
         label = {
-            "imageUrl":"Fotoğraf",
             "description":"Açıklama"
         }
         widgets = {
-            "imageUrl": TextInput(attrs={"class":"form-control"}),
             "description": Textarea(attrs={"class":"form-control"})
         }

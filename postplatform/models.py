@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Posts(models.Model):
-    imageUrl = models.CharField(max_length=10)
+    image = models.ImageField(upload_to='images', default="")
     description =  models.CharField(max_length=100)
     date = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)

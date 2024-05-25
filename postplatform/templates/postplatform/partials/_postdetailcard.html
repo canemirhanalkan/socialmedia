@@ -1,7 +1,7 @@
 {% load static %}
 
 <div class="card mb-3">
-    <img src="{% static 'img/'|add:post.imageUrl %}" class="card-img-top img-fluid" alt="...">
+    <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
     <div class="card-body">
       <p><strong>user profile</strong></p>
       <hr>
