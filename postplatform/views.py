@@ -1,8 +1,10 @@
 import datetime
-from django.shortcuts import render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 import requests
 import locale
 from .models import Posts
+from postplatform.forms import PostCreateForm
 
 # Create your views here.
 
@@ -26,6 +28,8 @@ def index(request):
     day = datetime.date.today().strftime("%A")
 #-----------------WEATHER APİ END-----------------------------#
 
+
+
 #-----------------Posts Objects-----------------------------#
     posts = Posts.objects.all().order_by("-date")
 
@@ -38,6 +42,35 @@ def index(request):
         'city':city,
         'posts':posts,
     })
+
+
+
+##------------------ POST DETAİL PAGE ----------------------##
+def post_detail(request, post_id):
+    
+    post = get_object_or_404(Posts, pk=post_id)
+
+    return render(request, 'postplatform/postdetail.html', {
+        'post':post
+    })
+
+
+
+##-------------- CREATE POST ------------------------------##
+def create_post(request):
+    if request.method == "POST":
+        form = PostCreateForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/posts')
+    else:
+        form = PostCreateForm()
+    return render(request, 'postplatform/createpost.html',{
+        "form":form
+    })
+
+
 
 
 

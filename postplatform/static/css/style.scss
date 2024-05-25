@@ -16,3 +16,16 @@
         border: 1px solid blue;
     }
 }
+
+
+/*errror list style*/
+
+.errorlist{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.invalid input, .invalid textarea{
+    border-color: red;
+}
