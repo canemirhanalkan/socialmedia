@@ -3,9 +3,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 import requests
 import locale
 from .models import Posts
+from django.contrib.auth.models import User
 from postplatform.forms import PostCreateForm
 from django.contrib.auth.decorators import login_required
-
 # Create your views here.
 
 
@@ -19,7 +19,7 @@ def index(request):
     # PARAMS = {'q':city, 'appid':key, 'units':'metric', 'lang':'tr'}
     # r = requests.get(url = URL, params=PARAMS)
     # res = r.json()
-    
+
     # description = res['weather'][0]['description'].upper()
     # icon = res['weather'][0]['icon']
     # temp = res['main']['temp']
@@ -32,6 +32,7 @@ def index(request):
 
 #-----------------Posts Objects-----------------------------#
     posts = Posts.objects.all().order_by("-date")
+
 
 
     return render(request, 'postplatform/index.html', {
@@ -47,11 +48,12 @@ def index(request):
 
 ##------------------ POST DETAİL PAGE ----------------------##
 def post_detail(request, post_id):
-    
+
     post = get_object_or_404(Posts, pk=post_id)
 
+
     return render(request, 'postplatform/postdetail.html', {
-        'post':post
+        'post':post,
     })
 
 
@@ -74,6 +76,16 @@ def create_post(request):
     })
 
 
+
+def profile_view(request, user_id):
+
+    profile_user = get_object_or_404(User, id=user_id)
+    posts = Posts.objects.filter(user=profile_user)
+
+    return render(request, "postplatform/profileview.html", {
+        'profile_user': profile_user,
+        'posts':posts,
+    })
 
 
 

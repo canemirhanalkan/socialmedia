@@ -3,7 +3,7 @@
 <div class="card mb-3">
     <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
     <div class="card-body">
-      <p><a href="{% url 'user_profile' user.id %}"><strong>{{ post.user.username }}</strong></a></p>
+      <p><strong><a href="{% url 'profile_view' post.user.id %}">{{ post.user.username }}</a></strong></p>
       <hr>
       <p class="card-text">{{ post.description }}</p>
       <button class="btn btn-outline-danger"><i class="fa-regular fa-heart"></i></button>

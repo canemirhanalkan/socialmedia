@@ -3,12 +3,24 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from postplatform.models import Posts
 
+
+
+
+def index(request):
+
+    posts = Posts.objects.all().order_by("-date")
+
+    return render(request, "account/index.html", {
+        "posts":posts,
+    })
+
+
 #--------USER LOGİN-------------#
 
 def user_login(request):
 
     if request.user.is_authenticated:
-        return redirect("index")
+        return redirect("account_index")
 
     if request.method == "POST":
         username = request.POST["username"]
@@ -21,7 +33,7 @@ def user_login(request):
             nextUrl = request.GET.get("next", None)
 
             if nextUrl is None:
-                return redirect("index")
+                return redirect("account_index")
             else:
                 return redirect(nextUrl)
         else:
@@ -70,12 +82,21 @@ def user_logout(request):
 def user_profile(request, user_id):
     
     #user posts
-    posts = Posts.objects.filter(user__id=user_id)
+    posts = Posts.objects.filter(user__id=user_id).order_by("-date")
+    user_post = Posts.objects.filter(user__id=user_id).order_by("-date")
 
     user = get_object_or_404(User, pk=user_id)
 
     return render(request, "account/profile.html", {
         "user":user,
-        "posts":posts
+        "posts":posts,
+        "user_post":user_post
     })
+
+# def post_delete(request, user_id):
+    
+#     #user posts
+#     posts = Posts.objects.filter(user__id=user_id)
+#     user_post = Posts.objects.filter(user__id=user_id)
+#     pass
 

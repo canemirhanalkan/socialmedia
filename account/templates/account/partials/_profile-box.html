@@ -9,8 +9,11 @@
 
 <div class="container alert alert-secondary">
     <div class="row profile-row d-flex flex-row align-items-center">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <a href="{% url 'user_profile' user.id %}">{{ user.username }}</a>
+        </div>
+        <div class="col-md-6">
+            <strong>{{ user_post|length }} gönderi</strong>
         </div>
     </div>
 </div>
