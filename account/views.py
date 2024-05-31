@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from postplatform.models import Posts
+from django.utils.text import slugify
 
 
 
@@ -10,8 +11,17 @@ def index(request):
 
     posts = Posts.objects.all().order_by("-date")
 
+    if request.user.is_authenticated:
+        user_post = Posts.objects.filter(user=request.user)
+        posts_count = user_post.count()
+    else:
+        user_post = None
+        posts_count = 0
+
     return render(request, "account/index.html", {
-        "posts":posts,
+        'posts':posts,
+        'user_post':user_post,
+        'posts_count':posts_count,
     })
 
 
@@ -56,6 +66,8 @@ def user_register(request):
         password = request.POST["password"]
         repassword = request.POST["repassword"]
 
+        slug = slugify(username)
+
         if password != password:
             return render(request, "account/register.html", {"error":"Parolalar eşleşmiyor. Yeniden deneyiniz."})
     
@@ -93,10 +105,15 @@ def user_profile(request, user_id):
         "user_post":user_post
     })
 
-# def post_delete(request, user_id):
-    
-#     #user posts
-#     posts = Posts.objects.filter(user__id=user_id)
-#     user_post = Posts.objects.filter(user__id=user_id)
-#     pass
 
+def post_delete(request, post_id):
+    
+    post = get_object_or_404(Posts, pk=post_id)
+
+    if request.method == "POST":
+        post.delete()
+        return redirect('account_index')
+
+    return render(request, "account/post-delete.html", {
+        'post':post
+    })

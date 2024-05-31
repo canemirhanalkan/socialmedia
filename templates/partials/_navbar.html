@@ -25,9 +25,17 @@
               <a class="nav-link" href="{% url 'user_register' %}">Kayıt Ol</a>
             </li>
           {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">Akış</a>
-          </li>
+
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_index' %}">Akış</a>
+            </li>
+
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Akış</a>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </div>

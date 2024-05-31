@@ -68,7 +68,7 @@ def create_post(request):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect('/posts')
+            return redirect('/account/index')
     else:
         form = PostCreateForm()
     return render(request, 'postplatform/createpost.html',{
