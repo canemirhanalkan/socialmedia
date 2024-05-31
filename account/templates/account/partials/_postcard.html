@@ -6,15 +6,21 @@
       <p><a href="{% url 'user_profile' user.id %}"><strong>{{ user.username }}</strong></a></p>
       <hr>
       <p class="card-text">{{ post.description }}</p>
-      <button class="btn btn-outline-danger"><i class="fa-regular fa-heart"></i></button>
-      <button class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></button>
+      <button class="btn btn-outline-danger"><i class="fa-regular fa-heart fa-sm"></i></button>
+      <button class="btn btn-outline-danger"><i class="fa-regular fa-comment fa-sm"></i></button>
 
       <!--go to post detail button-->
       {% if user.is_authenticated %}
         <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-success">Gönderiye git</a>
       {% endif %}
       
-      <a href="{% url 'post_delete' post.id %}" class="btn btn-outline-success">Sil</a>
+      <a href="{% url 'post_delete' post.id %}" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-warning"><i class="fa-regular fa-trash-can"></i></a>
+
+      {% include "account/post-delete.html" %}
+              <!-- Button trigger modal -->
+    {% comment %} <button href="{% url 'post_detail' post.id %}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      d
+    </button> {% endcomment %}
 
 
       <hr>

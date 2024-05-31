@@ -7,6 +7,7 @@ from django.utils.text import slugify
 
 
 
+
 def index(request):
 
     posts = Posts.objects.all().order_by("-date")
@@ -117,3 +118,13 @@ def post_delete(request, post_id):
     return render(request, "account/post-delete.html", {
         'post':post
     })
+
+
+
+
+
+
+
+
+
+#--------------------------Friendship-----------------------#

@@ -1,0 +1,15 @@
+{% load static %}
+
+<div class="card mb-3">
+    <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
+    <div class="card-body">
+      <p><strong>{{ post.user.username }}</strong></p>
+      <hr>
+      <p class="card-text">{{ post.description }}</p>
+      <button class="btn btn-outline-danger"><i class="fa-regular fa-heart"></i></button>
+      <button class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></button>
+
+      <hr>
+      <p class="card-text"><small class="text-body-secondary">{{ post.date }}</small></p>
+    </div>
+  </div>
