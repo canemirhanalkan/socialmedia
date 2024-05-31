@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'pages',
     'postplatform',
     'account',
+    'friendship',
 ]
 
 MIDDLEWARE = [
