@@ -1,0 +1,32 @@
+{% comment %} <div class="row mb-2">
+    <div class="col-sm-6"><a href="{% url 'profile_view' user.id %}">{{ user.username }}</a></div>
+    <div class="col-sm-6">
+        <form method="POST" action="{% url 'friendship:add_friend' %}">
+            {% csrf_token %}
+            <input type="hidden" name="username" value="{{ user_to_add.username }}">
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success">Ekle</button>
+            </div>
+        </form>
+    </div>
+</div> {% endcomment %}
+
+
+
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <a href="{% url 'profile_view' user.id %}">{{ user.username }}</a>
+    </div>
+    <div class="col-sm-6">
+        <a href="{% url 'friendship:add_friend' user.username %}" class="btn btn-success">Ekle</a>
+    </div>
+</div>
+
+
+{% comment %} <ul>
+    <li>
+        <a href="{% url 'profile_view' user.id %}">{{ user.username }}</a>
+        <a href="{% url 'friendship:add_friend' user.username %}" class="btn btn-success">Ekle</a>
+    </li>
+</ul> {% endcomment %}

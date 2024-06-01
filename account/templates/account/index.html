@@ -25,6 +25,12 @@
             </div>
             <div class="col-md-3">
                 {% include "account/partials/_profile-box.html" %}
+                <br>
+                <strong><h5>Önerilenler</h5></strong>
+                <hr>
+                {% for user in non_friends %}
+                    {% include "account/partials/_users-table.html" %}
+                {% endfor %}
             </div>
         </div>
     </div>

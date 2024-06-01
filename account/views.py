@@ -1,8 +1,12 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
+from httpx import post
+from django.http import HttpResponse
 from postplatform.models import Posts
 from django.utils.text import slugify
+from friendship.models import Friendship
 
 
 
@@ -10,6 +14,25 @@ from django.utils.text import slugify
 
 def index(request):
 
+#------------------------------------------------------------------------------------------------------#
+    current_user = request.user
+    all_users = User.objects.exclude(id=current_user.id)
+
+     # Kullanıcının eklediği arkadaşları al
+    friends_from = Friendship.objects.filter(from_user=current_user).values_list('to_user', flat=True)
+    # Kullanıcının eklenmiş olduğu arkadaşlık ilişkilerini al
+    friends_to = Friendship.objects.filter(to_user=current_user).values_list('from_user', flat=True)
+
+    # Tüm arkadaşların id'lerini birleştir
+    friend_ids = set(friends_from).union(set(friends_to))
+
+    # Arkadaş olmayan kullanıcıları filtrele
+    non_friends = all_users.exclude(id__in=friend_ids)
+
+#------------------------------------------------------------------------------------------------------#
+
+    friends = Friendship.objects.filter(from_user=request.user)
+    users = User.objects.all().order_by("-date_joined")
     posts = Posts.objects.all().order_by("-date")
 
     if request.user.is_authenticated:
@@ -23,6 +46,9 @@ def index(request):
         'posts':posts,
         'user_post':user_post,
         'posts_count':posts_count,
+        'users':users,
+        'friends':friends,
+        'non_friends':non_friends
     })
 
 
@@ -98,22 +124,29 @@ def user_profile(request, user_id):
     posts = Posts.objects.filter(user__id=user_id).order_by("-date")
     user_post = Posts.objects.filter(user__id=user_id).order_by("-date")
 
+    #friends
+    friends = Friendship.objects.filter(from_user=request.user)
+
     user = get_object_or_404(User, pk=user_id)
 
     return render(request, "account/profile.html", {
         "user":user,
         "posts":posts,
-        "user_post":user_post
+        "user_post":user_post,
+        "friends":friends,
     })
 
-
+@login_required()
 def post_delete(request, post_id):
     
     post = get_object_or_404(Posts, pk=post_id)
 
-    if request.method == "POST":
-        post.delete()
-        return redirect('account_index')
+    if post.user == request.user:
+        if request.method == "POST":
+            post.delete()
+            return redirect('account_index')
+    else:
+        return HttpResponse('bu gönderiyi silmek için yetkiniz yok')
 
     return render(request, "account/post-delete.html", {
         'post':post

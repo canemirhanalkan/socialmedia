@@ -1,7 +1,20 @@
 {% load static %}
 
 <div class="card mb-3">
-    <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
+
+    {% if post.image.url|slice:"-4:" == ".mp4" %}
+      <video controls class="card-img-top img-fluid">
+          <source src="{{ post.image.url }}" type="video/mp4">
+          Tarayıcınız video etiketini desteklemiyor.
+      </video>
+    {% else %}
+      <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
+    {% endif %}
+
+
+
+
+    {% comment %} <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="..."> {% endcomment %}
     <div class="card-body">
       <p><strong><a href="{% url 'profile_view' post.user.id %}">{{ post.user.username }}</a></strong></p>
       <hr>

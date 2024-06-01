@@ -1,7 +1,19 @@
 {% load static %}
 
 <div class="card mb-3">
-    <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
+    
+  
+    {% if post.image.url|slice:"-4:" == ".mp4" %}
+    <video controls class="card-img-top img-fluid">
+        <source src="{{ post.image.url }}" type="video/mp4">
+        Tarayıcınız video etiketini desteklemiyor.
+    </video>
+    {% else %}
+      <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="...">
+    {% endif %}
+
+
+
     <div class="card-body">
       <p><a href="{% url 'user_profile' user.id %}"><strong>{{ user.username }}</strong></a></p>
       <hr>
@@ -14,14 +26,10 @@
         <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-success">Gönderiye git</a>
       {% endif %}
       
-      <a href="{% url 'post_delete' post.id %}" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-warning"><i class="fa-regular fa-trash-can"></i></a>
 
-      {% include "account/post-delete.html" %}
-              <!-- Button trigger modal -->
-    {% comment %} <button href="{% url 'post_detail' post.id %}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      d
-    </button> {% endcomment %}
-
+      <!--post delete-->
+      <a href="{% url 'post_delete' post.id %}" type="button" class="btn btn-outline-warning"><i class="fa-regular fa-trash-can"></i></a>
+      <!--post delete end-->
 
       <hr>
       <p class="card-text"><small class="text-body-secondary">{{ post.date }}</small></p>

@@ -9,11 +9,17 @@
 
 <div class="container alert alert-secondary">
     <div class="row profile-row d-flex flex-row align-items-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <a href="{% url 'user_profile' user.id %}">{{ user.username }}</a>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <strong>{{ user_post|length }} gönderi</strong>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'friendship:friend_list' %}" type="button" data-bs-toggle="modal" data-bs-target="#friendsModal">
+                {{ friends|length }} arkadaş
+            </a>
+            {% include "friendship/friend-list.html" %}
         </div>
     </div>
 </div>
