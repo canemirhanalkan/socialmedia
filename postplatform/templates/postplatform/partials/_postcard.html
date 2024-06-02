@@ -12,19 +12,37 @@
     {% endif %}
 
 
-
-
-    {% comment %} <img src="{{ post.image.url }}" class="card-img-top img-fluid" alt="..."> {% endcomment %}
     <div class="card-body">
       <p><strong><a href="{% url 'profile_view' post.user.id %}">{{ post.user.username }}</a></strong></p>
       <hr>
       <p class="card-text">{{ post.description }}</p>
-      <button class="btn btn-outline-danger"><i class="fa-regular fa-heart"></i></button>
-      <button class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></button>
 
-      <!--go to post detail button-->
-      <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-success">Gönderiye git</a>
+      <div class="row">
+        <div class="col-sm-12 d-flex justify-content-start mb-2">
 
+          <!--like-->
+          <form action="{% url 'like-post' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{post.id}}">
+            {% if user.is_authenticated %}
+              {% if user not in post.liked.all %}
+                <button class="btn btn-outline-danger"><i class="fa-regular fa-heart"></i></button>&nbsp;
+              {% else %}
+                <button class="btn btn-outline-danger active"><i class="fa-regular fa-heart"></i></button>&nbsp;
+              {% endif %}
+            {% endif %}
+          </form>
+
+          <!--comment-->
+          <button class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></button>&nbsp;
+
+          <!--go to post detail button-->
+          <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-success">Gönderiye git</a>
+        </div>
+      </div>
+    
+
+      <strong style="font-size:14px">{{ post.liked.all.count }} beğeni</strong>
 
       <hr>
       <p class="card-text"><small class="text-body-secondary">{{ post.date }}</small></p>
