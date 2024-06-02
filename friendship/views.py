@@ -28,8 +28,6 @@ def add_friend(request, username):
 
 
 
-
-
 @login_required
 def friend_list(request):
 
@@ -54,3 +52,19 @@ def friend_list(request):
     # non_friends = all_users.exclude(id__in=friend_ids)
 
     # return render(request, 'friendship/friend-list.html', {'users': non_friends})
+
+
+
+@login_required
+def remove_friend(request, user_id):
+    user_to_remove = get_object_or_404(User, id=user_id)
+    friendship1 = Friendship.objects.filter(from_user=request.user, to_user=user_to_remove)
+    friendship2 = Friendship.objects.filter(from_user=user_to_remove, to_user=request.user)
+
+    if friendship1.exists():
+        friendship1.delete()
+    if friendship2.exists():
+        friendship2.delete()
+
+    return redirect('account_index')
+

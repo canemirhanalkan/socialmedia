@@ -136,6 +136,9 @@ def user_profile(request, user_id):
         "friends":friends,
     })
 
+
+
+
 @login_required()
 def post_delete(request, post_id):
     

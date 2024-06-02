@@ -20,7 +20,17 @@
       </div>
       <div class="modal-body" id="friendsModalBody">
         {% for friendship in friends %}
-          <p><strong>{{ friendship.to_user.username }}</strong></p>
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <strong>{{ friendship.to_user.username }}</strong>
+            </div>
+            <div class="col-sm-6">
+              <form method="POST" action="{% url 'friendship:remove_friend' friendship.to_user.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+              </form>
+            </div>
+          </div>
         {% endfor %}
       </div>
   </div>
