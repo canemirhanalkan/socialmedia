@@ -1,14 +1,14 @@
 import datetime
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 import requests
 import locale
-from django.http import HttpResponseRedirect
-from django.http import JsonResponse
 from .models import Posts, Like
 from django.contrib.auth.models import User
 from postplatform.forms import PostCreateForm
 from django.contrib.auth.decorators import login_required
+from friendship.models import Friendship
 # Create your views here.
 
 
@@ -80,14 +80,19 @@ def create_post(request):
 
 
 
+#-----------profile view-------------##
 def profile_view(request, user_id):
 
     profile_user = get_object_or_404(User, id=user_id)
     posts = Posts.objects.filter(user=profile_user)
 
+    friends = Friendship.objects.filter(from_user=user_id)
+
+
     return render(request, "postplatform/profileview.html", {
         'profile_user': profile_user,
         'posts':posts,
+        'friends':friends,
     })
 
 
@@ -96,10 +101,12 @@ def profile_view(request, user_id):
 
 def like_post(request):
     user = request.user
+    referer = request.META.get('HTTP_REFERER')
 
     if request.method == "POST":
         post_id = request.POST.get('post_id')
         post_obj = Posts.objects.get(id=post_id)
+        
 
         if user in post_obj.liked.all():
             post_obj.liked.remove(user)
@@ -115,4 +122,7 @@ def like_post(request):
                 like.value = 'Like'
         like.save()
 
-        return redirect('account_index')
+        if referer:
+            return HttpResponseRedirect(referer)
+        else:
+            return HttpResponseRedirect(reverse('account_index'))

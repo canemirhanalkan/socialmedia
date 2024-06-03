@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Friendship
 from .forms import AddFriendForm
 
-@login_required
+@login_required()
 def add_friend(request, username):
 
     ##----ayrı bir form da çalıştırmak için----##
@@ -28,12 +28,21 @@ def add_friend(request, username):
 
 
 
-@login_required
-def friend_list(request):
+@login_required()
+def friend_list(request, user_id):
+
+    user = User.objects.get(id=user_id)
 
     #---diğer kullanıcılar
     friends = Friendship.objects.filter(from_user=request.user)
-    return render(request, 'friendship/friend-list.html', {'friends': friends})
+
+
+
+    return render(request, 'friendship/friend-list.html', {
+        'friends': friends,
+        'user':user,
+        'current_user':request.user,
+        })
 
 
     #------------------arkadaş olmadığımız kullanıcıları gösterir----------------#
@@ -55,7 +64,7 @@ def friend_list(request):
 
 
 
-@login_required
+@login_required()
 def remove_friend(request, user_id):
     user_to_remove = get_object_or_404(User, id=user_id)
     friendship1 = Friendship.objects.filter(from_user=request.user, to_user=user_to_remove)

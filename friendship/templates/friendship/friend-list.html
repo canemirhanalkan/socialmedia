@@ -25,12 +25,16 @@
               <strong>{{ friendship.to_user.username }}</strong>
             </div>
             <div class="col-sm-6">
+              {% if request.user == friendship.from_user %}
               <form method="POST" action="{% url 'friendship:remove_friend' friendship.to_user.id %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger btn-sm">Sil</button>
               </form>
+              {% endif %}
             </div>
           </div>
+        {% empty %}
+        Henüz hiç arkadaşınız yok
         {% endfor %}
       </div>
   </div>
