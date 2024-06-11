@@ -28,3 +28,12 @@
 .invalid input, .invalid textarea{
     border-color: red;
 }
+
+.comments-section {
+    max-height: 615px; /* Sabit yükseklik belirleyin */
+    overflow-y: auto; /* Taşan içeriğin kaydırılmasını sağlayın */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #ffffff;
+  }

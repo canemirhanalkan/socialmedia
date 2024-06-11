@@ -154,13 +154,3 @@ def post_delete(request, post_id):
     return render(request, "account/post-delete.html", {
         'post':post
     })
-
-
-
-
-
-
-
-
-
-#--------------------------Friendship-----------------------#

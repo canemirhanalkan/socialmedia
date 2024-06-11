@@ -6,7 +6,7 @@ import requests
 import locale
 from .models import Posts, Like
 from django.contrib.auth.models import User
-from postplatform.forms import PostCreateForm
+from postplatform.forms import CommentForm, PostCreateForm
 from django.contrib.auth.decorators import login_required
 from friendship.models import Friendship
 # Create your views here.
@@ -37,7 +37,6 @@ def index(request):
     posts = Posts.objects.all().order_by("-date")
 
 
-
     return render(request, 'postplatform/index.html', {
         # 'description':description,
         # 'icon':icon,
@@ -54,9 +53,10 @@ def post_detail(request, post_id):
 
     post = get_object_or_404(Posts, pk=post_id)
 
-
+    comments = post.comments.all()
     return render(request, 'postplatform/postdetail.html', {
         'post':post,
+        'comments':comments,
     })
 
 
@@ -97,6 +97,9 @@ def profile_view(request, user_id):
 
 
 
+
+
+
 #------------post like------------------#
 
 def like_post(request):
@@ -126,3 +129,31 @@ def like_post(request):
             return HttpResponseRedirect(referer)
         else:
             return HttpResponseRedirect(reverse('account_index'))
+
+
+
+
+
+#------------comment------------------#
+@login_required()
+def add_comment(request, post_id):
+    post = get_object_or_404(Posts, id=post_id)
+    comments = post.comments.all().order_by('-created_at')
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = post
+            comment.save()
+            
+            return redirect('add_comment', post_id=post.id)
+    else:
+        form = CommentForm()
+     
+    return render(request, 'postplatform/add-comment.html', {
+        'form': form,
+        'post': post,
+        'comments':comments,
+    })

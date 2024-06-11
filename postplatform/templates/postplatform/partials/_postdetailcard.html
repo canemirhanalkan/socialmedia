@@ -36,14 +36,17 @@
           </form>
 
           <!--comment-->
-          <button class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></button>&nbsp;
+          <a href="{% url 'add_comment' post.id %}" class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></a>&nbsp;
 
+
+
+          
           <!--go to post detail button-->
           <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-success">Gönderiye git</a>
         </div>
       </div>
 
-      <strong style="font-size:14px">{{ post.liked.all.count }} beğeni</strong>
+      <strong style="font-size:14px">{{ post.liked.all.count }} beğeni</strong>&nbsp;<strong style="font-size:14px">{{ post.comments.all.count }} yorum</strong>
 
 
 

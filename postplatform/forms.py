@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import TextInput, Textarea
 
-from postplatform.models import Posts
+from postplatform.models import Posts, Comment
 
 # class PostCreateForm(forms.Form):
 
@@ -20,7 +20,7 @@ from postplatform.models import Posts
 #     )
 
 
-#--- models form ---#
+#--- post models form ---#
 
 class PostCreateForm(forms.ModelForm):
     class Meta:
@@ -32,3 +32,21 @@ class PostCreateForm(forms.ModelForm):
         widgets = {
             "description": Textarea(attrs={"class":"form-control"})
         }
+
+
+
+class CommentForm(forms.ModelForm):
+    
+    class Meta:
+        model = Comment
+        fields = ("content",)
+        labels = {
+            "content": ""
+        }
+        widgets = {
+            "content": Textarea(attrs={"class":"form-control"})
+        }
+
+
+
+

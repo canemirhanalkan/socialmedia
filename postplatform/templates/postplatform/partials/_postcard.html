@@ -13,7 +13,7 @@
 
 
     <div class="card-body">
-      <p><strong><a href="{% url 'profile_view' post.user.id %}">{{ post.user.username }}</a></strong></p>
+      <p><strong><a {% if post.user == request.user %}href="{% url 'user_profile' user.id %}" {% else %} href="{% url 'profile_view' post.user.id %}"{% endif %}>{{ post.user.username }}</a></strong></p>
       <hr>
       <p class="card-text">{{ post.description }}</p>
 
@@ -33,16 +33,27 @@
             {% endif %}
           </form>
 
+
+
+
+
           <!--comment-->
-          <button class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></button>&nbsp;
+          <a href="{% url 'add_comment' post.id %}" class="btn btn-outline-danger"><i class="fa-regular fa-comment"></i></a>&nbsp;
+          <!--comment end-->
+
+
+
+
+
 
           <!--go to post detail button-->
           <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-success">Gönderiye git</a>
         </div>
       </div>
+
     
 
-      <strong style="font-size:14px">{{ post.liked.all.count }} beğeni</strong>
+      <strong style="font-size:14px">{{ post.liked.all.count }} beğeni</strong> &nbsp; <strong>{{ post.comments.all.count }} yorum</strong>
 
       <hr>
       <p class="card-text"><small class="text-body-secondary">{{ post.date }}</small></p>
