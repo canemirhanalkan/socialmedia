@@ -13,17 +13,19 @@
 
 {% block content %}
     
-    <div class="container-fluid">
+    <div class="container-fluid container-view">
         <div class="row mt-3">
-            <div class="col-md-3">
-                {% comment %} {% include "postplatform/partials/_weather-show-card.html" %} {% endcomment %}
+            <div class="col-md-3 left-sidebar">
+                {% include "postplatform/partials/_weather-show-card.html" %}
             </div>
-            <div class="col-md-6" id="post_{{ post.id }}">
+
+            <div class="col-md-6 sidebar main-content" id="post_{{ post.id }}">
                 {% for post in posts %}
                     {% include "postplatform/partials/_postcard.html" %}
                 {% endfor %}
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-3 right-sidebar">
                 {% include "account/partials/_profile-box.html" %}
                 <br>
                 <strong><h5>Önerilenler</h5></strong>

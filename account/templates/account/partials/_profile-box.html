@@ -10,7 +10,7 @@
 <div class="container alert alert-secondary">
     <div class="row profile-row d-flex flex-row align-items-center">
         <div class="col-md-4">
-            <a href="{% url 'user_profile' user.id %}">{{ user.username }}</a>
+            <a  class="link-texts" href="{% url 'user_profile' user.id %}">{{ user.username }}</a>
         </div>
         <div class="col-md-4">
             <strong>{{ user_post|length }} gönderi</strong>

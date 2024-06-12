@@ -18,11 +18,15 @@
         <div class="row mt-3">
             <div class="col-md-8">
                 <div class="row">
-                    {% for post in posts %}
-                        <div class="col-3">
-                            {% include "account/partials/_postcard.html" %}
-                        </div>
-                    {% endfor %}
+                    {% if user_post|length > 0 %}
+                        {% for post in posts %}
+                            <div class="col-3">
+                                {% include "account/partials/_postcard.html" %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    <p>Henüz bir gönderi yok</p>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-4">

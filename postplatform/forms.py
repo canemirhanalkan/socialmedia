@@ -26,8 +26,9 @@ class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Posts
         fields = ("image","description")
-        label = {
-            "description":"Açıklama"
+        labels = {
+            "description":"Açıklama",
+            "image":""
         }
         widgets = {
             "description": Textarea(attrs={"class":"form-control"})

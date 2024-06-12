@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from httpx import post
+import requests
+import locale
+import datetime
 from django.http import HttpResponse
 from postplatform.models import Posts
 from django.utils.text import slugify
@@ -13,6 +16,26 @@ from friendship.models import Friendship
 
 
 def index(request):
+
+#-------------------------weather api-----------------------------#
+    city = 'Balıkesir'
+
+    key = '12f9563b5d56a94d23d5c83b004ed158'
+    URL = 'https://api.openweathermap.org/data/2.5/weather'
+    PARAMS = {'q':city, 'appid':key, 'units':'metric', 'lang':'tr'}
+    r = requests.get(url = URL, params=PARAMS)
+    res = r.json()
+
+    description = res['weather'][0]['description'].upper()
+    icon = res['weather'][0]['icon']
+    temp = res['main']['temp']
+
+    locale.setlocale(locale.LC_ALL,"")
+    day = datetime.date.today().strftime("%A")
+
+#----------------------weather api end-----------------------------#
+
+
 
 #------------------------------------------------------------------------------------------------------#
     current_user = request.user
@@ -43,6 +66,11 @@ def index(request):
         posts_count = 0
 
     return render(request, "account/index.html", {
+        'description':description,
+        'icon':icon,
+        'temp':temp,
+        'day':day,
+        'city':city,
         'posts':posts,
         'user_post':user_post,
         'posts_count':posts_count,
